@@ -16,7 +16,7 @@ import com.eroad.vehicle.api.service.TimeZoneService;
 public class CsvProcessorFactory {
     
     @Autowired
-    @Qualifier("timeshape")
+    @Qualifier("google")
     private TimeZoneService timeZoneService;
     
     @Autowired

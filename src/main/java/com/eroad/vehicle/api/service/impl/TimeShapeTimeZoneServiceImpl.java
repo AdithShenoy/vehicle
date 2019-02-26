@@ -30,7 +30,7 @@ public class TimeShapeTimeZoneServiceImpl implements TimeZoneService {
         if (zoneId.isPresent()) {
             data.setTimeZoneId(zoneId.get().toString());
         } else {
-            throw new VehicleApiValidationException("invalid timezone");
+            throw new VehicleApiValidationException("invalid coordinates");
         }
         return data;
     }

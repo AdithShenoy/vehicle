@@ -17,7 +17,6 @@ import com.eroad.vehicle.api.dto.VehicleApiError;
 import com.eroad.vehicle.api.dto.VehicleApiErrorResponse;
 import com.eroad.vehicle.api.exception.VehicleApiException;
 import com.eroad.vehicle.api.exception.VehicleApiValidationException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 /**
  * Custom exception handlers for Vehicle API exceptions
@@ -57,17 +56,6 @@ public class CsvValidationsExceptionHandler {
         }
         
         return errorResponse("CSV validation Failed", request.getServletPath(), errors, HttpStatus.BAD_REQUEST);
-    }
-    
-    @ExceptionHandler({ CsvRequiredFieldEmptyException.class })
-    public ResponseEntity<VehicleApiErrorResponse> constraintViolation(CsvRequiredFieldEmptyException exception,
-            HttpServletRequest request) {
-        List<VehicleApiError> errors = new ArrayList<>();
-        VehicleApiError error = new VehicleApiError();
-        error.setMessage(exception.getMessage());
-        error.setCode("error");
-        errors.add(error);
-        return errorResponse("CSV parsing Failed", request.getServletPath(), errors, HttpStatus.BAD_REQUEST);
     }
     
     @ExceptionHandler({ VehicleApiException.class })

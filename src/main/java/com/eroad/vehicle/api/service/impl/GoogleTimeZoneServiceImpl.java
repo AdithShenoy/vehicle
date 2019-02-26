@@ -9,11 +9,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.eroad.vehicle.api.dto.TimeZoneData;
+import com.eroad.vehicle.api.exception.VehicleApiValidationException;
 import com.eroad.vehicle.api.service.TimeZoneService;
 
 /**
- * Impl for {@link TimeZoneService} using Google APIs
- * Other APIs can implement TimeZoneService and provide custom impl
+ * Impl for {@link TimeZoneService} using Google APIs Other APIs can implement
+ * TimeZoneService and provide custom impl
  * 
  * @author shenoy.adith
  *
@@ -31,15 +32,18 @@ public class GoogleTimeZoneServiceImpl implements TimeZoneService {
     private RestTemplate restTemplate;
     
     @Override
-    public TimeZoneData getTimeZoneData(String latitude, String longitude) {
+    public TimeZoneData getTimeZoneData(String latitude, String longitude) throws VehicleApiValidationException {
         URI uri = constructUrl(latitude, longitude);
-        return restTemplate.getForObject(uri, TimeZoneData.class);
+        try {
+            return restTemplate.getForObject(uri, TimeZoneData.class);
+        } catch (Exception ex) {
+            throw new VehicleApiValidationException("invalid coordinates");
+        }
     }
-
+    
     private URI constructUrl(String latitude, String longitude) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(timeZoneUrl)
-                .queryParam("location", String.format("%s,%s", latitude, longitude))
-                .queryParam("timestamp", 1458000000)
+                .queryParam("location", String.format("%s,%s", latitude, longitude)).queryParam("timestamp", 1458000000)
                 .queryParam("key", apiKey);
         return builder.build().encode().toUri();
     }
