@@ -1,6 +1,8 @@
 package com.eroad.vehicle.api.dto;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.opencsv.bean.CsvBindByPosition;
 
@@ -14,11 +16,15 @@ public class VehicleData {
     
     @NotBlank(message = "UTC Date time is missing")
     @CsvBindByPosition(position = 0)
+    @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}",
+            message = "UTC date time is not in valid format: yyyy-mm-dd HH:mm:ss")
     private String utcDateTime;
     @NotBlank(message = "Latitude is missing")
+    @Digits(fraction = 6, integer = 10, message = "Latitude must be a number")
     @CsvBindByPosition(position = 1)
     private String latitude;
     @NotBlank(message = "Longitude is missing")
+    @Digits(fraction = 6, integer = 10, message = "Longitude must be a number")
     @CsvBindByPosition(position = 2)
     private String longitude;
     

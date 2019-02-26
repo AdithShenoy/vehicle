@@ -15,13 +15,13 @@ import org.springframework.web.client.RestTemplate;
 import com.eroad.vehicle.api.dto.TimeZoneData;
 
 /**
- * Test class for {@link TimeZoneServiceImpl}
+ * Test class for {@link GoogleTimeZoneServiceImpl}
  * 
  * @author shenoy.adith
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class TimeZoneServiceImplTest {
+public class GoogleTimeZoneServiceImplTest {
     
     @InjectMocks
     private GoogleTimeZoneServiceImpl service;
