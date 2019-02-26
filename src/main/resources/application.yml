@@ -1,0 +1,10 @@
+#csv file properties
+csv:
+  file:
+    encoding: UTF-8
+
+#timezone api
+timezone:
+  url: https://maps.googleapis.com/maps/api/timezone/json
+  api:
+    key: <API_KEY>
