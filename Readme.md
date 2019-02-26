@@ -4,6 +4,9 @@ Vehicle API
 ### Build
 `mvn clean install`
 
+### Run
+If you wish to use Google API, please input api key in application.properties
+
 ## Functions
 
 Vehicle API provides following functionality:

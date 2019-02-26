@@ -61,8 +61,9 @@ public class VehicleCsvServiceImplTest {
     public void testLocalize() throws Exception {
         // Given
         MultipartFile file = new MockMultipartFile("name", "original_name", "text/csv",
-                "UTC_DATE_TIME,LATITUDE,LONGITUDE\n2013-07-10 02:52:49,-44.490947,171.220966".getBytes());
+                "2013-07-10 02:52:49,-44.490947,171.220966".getBytes());
         Mockito.doCallRealMethod().when(csvUtil).parse(Mockito.any(), Mockito.any());
+        Mockito.doCallRealMethod().when(csvUtil).writer(Mockito.any());
         
         Mockito.when(processor.process(Mockito.any())).thenReturn(new String[] { "2013-07-10 02:52:49", "-44.490947",
                 "171.220966", "Pacific/Auckland", "2013-07-10T14:52:49" });

@@ -49,7 +49,7 @@ public class VehicleCsvServiceImpl implements VehicleCsvService {
         try {
             tempFilePath = Files.createTempFile("vehicles", "csv");
             writeToTempFile(tempFilePath, file);
-            // copy from temp file to response output stream
+            // copy from temp file to response output stream if no validation errors
             IOUtils.copy(Files.newInputStream(tempFilePath), outputStream);
         } catch (IOException ex) {
             throw new VehicleApiException("error while writing to csv");
@@ -64,9 +64,7 @@ public class VehicleCsvServiceImpl implements VehicleCsvService {
         CsvProcessor csvProcessor = processorFactory.constructNewProcessor();
         
         try (OutputStream fileStream = Files.newOutputStream(tempFile);
-                CSVWriter csvWriter = new CSVWriter(new OutputStreamWriter(fileStream, csvFileEncoding),
-                        CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                        CSVWriter.DEFAULT_LINE_END)) {
+                CSVWriter csvWriter = csvUtil.writer(new OutputStreamWriter(fileStream, csvFileEncoding))) {
             int lineNumber = 1;
             for (VehicleData vehicleData : vehicleInfo) {
                 vehicleData.setLineNumber(lineNumber++);
@@ -82,10 +80,11 @@ public class VehicleCsvServiceImpl implements VehicleCsvService {
         }
     }
     
-    private void deleteFile(Path tempFilePath) {
+    private void deleteFile(Path tempFilePath) throws VehicleApiException {
         try {
             Files.deleteIfExists(tempFilePath);
         } catch (IOException e) {
+            throw new VehicleApiException("error while closing file");
         }
     }
 }
